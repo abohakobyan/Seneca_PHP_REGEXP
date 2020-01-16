@@ -1,0 +1,25 @@
+
+<?php
+$name = $_POST['cookieName'];
+$value= $_POST['cookieValue'];
+if($_POST){
+setcookie($_POST['cookieName'], $value= $_POST['cookieValue'], time()+3600);
+}
+?>
+<html>
+<head>
+<title> Cookies </title>
+</head>
+<body>
+<h3>Cookies</h3>
+<form method="post" action="">
+<input type="text" name="cookieName">
+<input type="test" name="cookieValue">
+<input type="submit" name="submit">
+</form>
+<?php 
+echo $_COOKIE[$name];
+
+?>
+</body>
+</html>

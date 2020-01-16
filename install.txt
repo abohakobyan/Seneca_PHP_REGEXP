@@ -1,0 +1,157 @@
+Lab 1a - Installing a Web Server on Zenit
+
+Objective:
+
+To install a web server on the zenit server. This is a two stage process. Lab 1a will complete the Apache Installation. Lab 1b given in Week 3 with reinstall the web server with the PHP module, so remember these instructions.
+
+(2 Marks) To be completed by Week 3 start of lab period.
+
+1. Login to your zenit account
+2. Make a directory in your home directory called apache. This is your server root.
+3. Change to the /tmp directory
+4. Make a directory with your zenit username and change into it
+5. Using lynx download the tarball for 2.2.31
+
+lynx http://httpd.apache.org/download.cgi
+
+6. Unpack the tarball.
+
+tar zxvf *31.tar.gz
+
+7. Change directories to the httpd directory that was created. (called the source root)
+
+8. Configure the source code for installation
+
+./configure --prefix=/home/yourzenitusername/yourserverroot
+
+Substitute the appropriate directory pathname and ensure it is an absolute pathname
+
+9. Compile the install
+
+make
+
+10. Install the executable
+
+make install
+
+11. Change to the server root in your home directory
+
+12. Change your permission sets
+
+chmod 700 bin logs conf includes modules 
+chmod 711 cgi-bin
+
+13. Change to the conf directory
+
+14. Read the ports file in your home directory for the port numbers listed, and write these two numbers down
+
+15. In conf, open up httpd.conf in vi and search for the Listen directive. Change the number to the first number you received in the ports file.
+
+16. Write the file and quit
+
+17. Change to the bin directory in your server root
+
+18. Start the server
+
+./apachectl start
+
+19. Test your server. Open a browser and go to
+
+zenit.senecac.on.ca:yourportnumber
+
+where portnumber is the number you enter in httpd.conf
+
+20. Your done!!!
+Optional for students that have done a linux install on a VM or hard drive.
+
+Objective: To install the raw source executable for PHP5.4.45 with Apache-2.2-31.
+
+This will allow student to run the Apache Web server with the the PHP module on zenit, customized for that environment. This requires some modifications to the install procedure from the Install instructions in both Apache and PHP.
+
+The install notes for php Installation are located here 
+Please be aware that the install directions do not reflect the changes made for zenit.
+
+1. Shut down your Apache web server as per Lab 1a or using the kill -9 <PID#>
+
+2. Remove your server root from your home:
+
+rm -rf <serverroot>
+
+replacing serverroot what you named it
+
+3. Create a new serverroot in your home directory as per lab 1a
+
+4. Again, move to the /tmp directory in the root of zenit. Make a directory with your username. Once made, move to it.
+
+5. Using lynx, as in Lab1a, get the tarball for apache, and for PHP. I found this link could handle lynx for the php download.
+
+http://fossies.org/linux/www/php-5.4.45.tar.gz
+or
+http://php.net/get/php-5.4.45.tar.gz/from/a/mirror
+
+www.php.net is the main source link
+
+6. Unpack the tarballs with the tar zxvf command
+
+7. We will configure the apache first. Go into the source directory of apache:
+
+8. Now, install Apache again with one change, from Lab 1a. Move to the apache source directory (httpd-2.2.31)
+
+9. Re-do the re-configuration
+
+./configure --prefix=/home/yourhomedirectory/yourserverroot --enable-so
+
+make
+make install
+
+10. Return to your home directory
+
+11. Go to your server root and the conf directory
+
+
+12. Open up httpd.conf in vi and put in your port number 
+
+13. Got to the directives listed as FilesMatch (around line 223)
+
+14. Insert a new directive with the following:
+
+<FilesMatch "\.ph(p[2-6]?|tml)$">
+
+ SetHandler application/x-httpd-php
+  
+</FilesMatch>
+15. Save and quit
+
+
+16. Start your server and check it with a browser then stop it again.
+
+17. Install php Go to the php source root
+
+
+./configure --with-apxs2=/home/yourusername/yourserverroot/bin/apxs --with-mysqli --prefix=/home/yourusername/yourserveroot
+
+18. Prepare the install and install it
+
+make
+make install
+
+19. Restart your server
+
+20. Write a php file by going into the server root and cgi-bin directory.
+
+21. Create a php test page with the phpinfo function of PHP by opening a file
+in vi and call it admin.php
+
+22. Insert the following text:
+
+<?php
+phpinfo();
+?>
+
+23.Change the permission on admin.php to 755
+
+24. Test it by going to that page.
+
+http:/zenit.senecac.on.ca:yourportnumber/cgi-bin/admin.php
+
+25. That's it.
